@@ -27,22 +27,48 @@ personal_data.each do |person|
   puts "Person #{person_id}: #{person[:name]}, #{person[:age]}"
 end
 
-puts "Do you want to add a new person to the list yes = 'y'| no = 'n':"
-add_new_person = gets.chomp
+puts "Add a new person  in the data_base= 'a'"
+puts "Delete a person in the data_base= 'd'"
+puts "Enter a choice:"
 
-if add_new_person == "y"
-  puts "Input national id:"
-  new_national_id = gets.chomp
+choice = gets.chomp
 
-  puts "Input name:"
-  new_name = gets.chomp
+case choice
+when "a"
 
-  puts "Input age:"
-  new_age = gets.chomp.to_i
+  puts "Do you want to add a new person to the list yes = 'y'| no = 'n':"
+  add_new_person = gets.chomp
 
-  if personal_data.any? { |person| person[:national_id] == new_national_id }
-    puts "Failed to add: National ID already exists."
+  if add_new_person == "y"
+    puts "Input national id:"
+    new_national_id = gets.chomp
+
+    puts "Input name:"
+    new_name = gets.chomp
+
+    puts "Input age:"
+    new_age = gets.chomp.to_i
+
+    if personal_data.any? { |person| person[:national_id] == new_national_id }
+      puts "Failed to add: National ID already exists."
+    else
+      puts "User added successfully!"
+      personal_data << { national_id: "#{new_national_id}", name: "#{new_name}", age: "#{new_age}" }
+
+    end
   else
-    puts "User added successfully!"
+    exit
   end
+
+when "d"
+  puts "Enter the National ID to delete the user:"
+  delete_user = gets.chomp
+  if personal_data.reject! { |person| person[:national_id] == delete_user }
+    puts "Successfully deleted."
+  else
+    puts "User not found"
+  end
+
+else
+  puts "Invalid choice."
 end
