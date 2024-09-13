@@ -9,34 +9,36 @@ personal_data = [
   { national_id: "6789-0123-4567", name: "Torres", age: 36 },
   { national_id: "8901-2345-6789", name: "Flores", age: 48 },
   { national_id: "0123-4567-8901", name: "Ramos", age: 41 },
-  { national_id: "2345-6789-0123", name: "Aquino", age: 22 },
-  { national_id: "4567-8901-2345", name: "Castillo", age: 29 },
-  { national_id: "6789-0123-4567", name: "Rivera", age: 25 },
-  { national_id: "8901-2345-6789", name: "Gonzales", age: 37 },
-  { national_id: "0123-4567-8901", name: "Dela Cruz", age: 66 },
-  { national_id: "2345-6789-0123", name: "Martinez", age: 49 },
-  { national_id: "4567-8901-2345", name: "Hernandez", age: 26 },
-  { national_id: "6789-0123-4567", name: "Lopez", age: 17 },
-  { national_id: "8901-2345-6789", name: "Fernandez", age: 51 },
-  { national_id: "0123-4567-8901", name: "Diaz", age: 38 }
+  { national_id: "2345-6789-0124", name: "Aquino", age: 22 },
+  { national_id: "4567-8901-2346", name: "Castillo", age: 29 },
+  { national_id: "6789-0123-4568", name: "Rivera", age: 25 },
+  { national_id: "8901-2345-6790", name: "Gonzales", age: 37 },
+  { national_id: "0123-4567-8902", name: "Dela Cruz", age: 66 },
+  { national_id: "2345-6789-0125", name: "Martinez", age: 49 },
+  { national_id: "4567-8901-2347", name: "Hernandez", age: 26 },
+  { national_id: "6789-0123-4569", name: "Lopez", age: 17 },
+  { national_id: "8901-2345-6791", name: "Fernandez", age: 51 },
+  { national_id: "4264-4451-5545", name: "Diaz", age: 38 }
 ]
 
-person_id = 0
-personal_data.each do |person|
-  person_id += 1
-  puts "Person #{person_id}: #{person[:name]}, #{person[:age]}"
+def display_personal_data(personal_data)
+  sorted_data = personal_data.sort_by { |person| -person[:created_at].to_i }
+  sorted_data.each_with_index do |person, index|
+    puts "Person #{index + 1}: #{person[:national_id]} #{person[:name]}, #{person[:age]}"
+  end
 end
 
-puts "Add a new person  in the data_base= 'a'"
-puts "Delete a person in the data_base= 'd'"
+display_personal_data(personal_data)
+
+puts "Add a new person in the database = 'a'"
+puts "Delete a person in the database = 'd'"
 puts "Enter a choice:"
 
 choice = gets.chomp
 
 case choice
 when "a"
-
-  puts "Do you want to add a new person to the list yes = 'y'| no = 'n':"
+  puts "Do you want to add a new person to the list? yes = 'y' | no = 'n':"
   add_new_person = gets.chomp
 
   if add_new_person == "y"
@@ -52,9 +54,10 @@ when "a"
     if personal_data.any? { |person| person[:national_id] == new_national_id }
       puts "Failed to add: National ID already exists."
     else
+      personal_data << { national_id: new_national_id, name: new_name, age: new_age, created_at: Time.now }
       puts "User added successfully!"
-      personal_data << { national_id: "#{new_national_id}", name: "#{new_name}", age: "#{new_age}" }
-
+      display_personal_data(personal_data)
+      exit
     end
   else
     exit
@@ -63,12 +66,17 @@ when "a"
 when "d"
   puts "Enter the National ID to delete the user:"
   delete_user = gets.chomp
+
   if personal_data.reject! { |person| person[:national_id] == delete_user }
     puts "Successfully deleted."
+    display_personal_data(personal_data)
+    exit
   else
-    puts "User not found"
+    puts "User not found."
+    exit
   end
 
 else
   puts "Invalid choice."
+  exit
 end
