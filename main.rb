@@ -26,3 +26,23 @@ personal_data.each do |person|
   person_id += 1
   puts "Person #{person_id}: #{person[:name]}, #{person[:age]}"
 end
+
+puts "Do you want to add a new person to the list yes = 'y'| no = 'n':"
+add_new_person = gets.chomp
+
+if add_new_person == "y"
+  puts "Input national id:"
+  new_national_id = gets.chomp
+
+  puts "Input name:"
+  new_name = gets.chomp
+
+  puts "Input age:"
+  new_age = gets.chomp.to_i
+
+  if personal_data.any? { |person| person[:national_id] == new_national_id }
+    puts "Failed to add: National ID already exists."
+  else
+    puts "User added successfully!"
+  end
+end
