@@ -9,6 +9,92 @@ def display_citizen_data(citizen_data)
   end
 end
 
+def add(citizen_data)
+  puts "Input national id:"
+  new_national_id = gets.chomp
+
+  puts "Input name:"
+  new_name = gets.chomp
+
+  puts "Input age:"
+  new_age = gets.chomp.to_i
+
+  if citizen_data.any? { |person| person[:national_id] == new_national_id }
+    puts "Failed to add: National ID already exists."
+  else
+    citizen_data << { national_id: new_national_id, name: new_name, age: new_age, created_at: Time.now }
+    puts "User added successfully!"
+    display_citizen_data(citizen_data)
+  end
+end
+
+def remove(citizen_data)
+  puts "Enter the National ID to delete the user:"
+  delete_user = gets.chomp
+
+  if citizen_data.reject! { |person| person[:national_id] == delete_user }
+    puts "Successfully deleted."
+    display_citizen_data(citizen_data)
+  else
+    puts "User not found."
+  end
+end
+
+def search(citizen_data)
+  puts "Enter the National ID to search the user:"
+  search_user = gets.chomp
+
+  user = citizen_data.detect { |person| person[:national_id] == search_user }
+
+  if user
+    puts "User found!"
+    puts "National ID:#{user[:national_id]} Name:#{user[:name]} Age:#{user[:age]}"
+  else
+    puts "User not found."
+  end
+end
+
+def edit(citizen_data)
+  puts "Enter the National ID to edit the user:"
+  edit_user_id = gets.chomp
+  user = citizen_data.detect { |person| person[:national_id] == edit_user_id }
+
+  if user
+    puts "Enter 'age' to edit the age"
+    puts "Enter 'name' to edit the name"
+    edit_choice = gets.chomp.downcase
+
+    case edit_choice
+    when 'age'
+      puts "Edit new age:"
+      new_age = gets.chomp.to_i
+      user[:age] = new_age
+      puts "Updated | National ID: #{user[:national_id]} Name: #{user[:name]} Age: #{user[:age]}"
+    when 'name'
+      puts "Edit new name:"
+      new_name = gets.chomp
+      user[:name] = new_name
+      puts "Updated | National ID: #{user[:national_id]} Name: #{user[:name]} Age: #{user[:age]}"
+    else
+      puts "Invalid choice. Please enter 'age' or 'name'."
+    end
+  else
+    puts "User not found."
+  end
+end
+
+def quit_program(citizen_data)
+  print "Are you sure you want to exit (y/n)? "
+  exit_choice = gets.chomp.downcase
+  if exit_choice == 'y'
+    puts "Exiting..."
+  elsif exit_choice == 'n'
+    puts "Going back to the main menu."
+  else
+    puts "Invalid choice. Please enter 'y' or 'n'."
+  end
+end
+
 citizen_data = [
   { national_id: "1234-5678-9012", name: "Santos", age: 19, created_at: Time.now },
   { national_id: "3456-7890-1234", name: "Reyes", age: 18, created_at: Time.now },
@@ -49,90 +135,22 @@ while choice != 'e'
 
   case choice
   when 'a'
-    puts "Input national id:"
-    new_national_id = gets.chomp
+    add(citizen_data)
 
-    puts "Input name:"
-    new_name = gets.chomp
-
-    puts "Input age:"
-    new_age = gets.chomp.to_i
-
-    if citizen_data.any? { |person| person[:national_id] == new_national_id }
-      puts "Failed to add: National ID already exists."
-    else
-      citizen_data << { national_id: new_national_id, name: new_name, age: new_age, created_at: Time.now }
-      puts "User added successfully!"
-      display_citizen_data(citizen_data)
-    end
   when 'd'
-    puts "Enter the National ID to delete the user:"
-    delete_user = gets.chomp
-
-    if citizen_data.reject! { |person| person[:national_id] == delete_user }
-      puts "Successfully deleted."
-      display_citizen_data(citizen_data)
-    else
-      puts "User not found."
-    end
+    remove(citizen_data)
 
   when 's'
-    puts "Enter the National ID to search the user:"
-    search_user = gets.chomp
-
-    user = citizen_data.detect { |person| person[:national_id] == search_user }
-
-    if user
-      puts "User found!"
-      puts "National ID:#{user[:national_id]} Name:#{user[:name]} Age:#{user[:age]}"
-    else
-      puts "User not found."
-    end
+    search(citizen_data)
 
   when 'w'
-    puts "Enter the National ID to edit the user:"
-    edit_user_id = gets.chomp
-    user = citizen_data.detect { |person| person[:national_id] == edit_user_id }
-
-    if user
-      puts "Enter 'age' to edit the age"
-      puts "Enter 'name' to edit the name"
-      edit_choice = gets.chomp.downcase
-
-      case edit_choice
-      when 'age'
-        puts "Edit new age:"
-        new_age = gets.chomp.to_i
-        user[:age] = new_age
-        puts "Updated | National ID: #{user[:national_id]} Name: #{user[:name]} Age: #{user[:age]}"
-      when 'name'
-        puts "Edit new name:"
-        new_name = gets.chomp
-        user[:name] = new_name
-        puts "Updated | National ID: #{user[:national_id]} Name: #{user[:name]} Age: #{user[:age]}"
-      else
-        puts "Invalid choice. Please enter 'age' or 'name'."
-      end
-    else
-      puts "User not found."
-    end
+    edit(citizen_data)
 
   when 'e'
-    print "Are you sure you want to exit (y/n)? "
-    exit_choice = gets.chomp.downcase
-    if exit_choice == 'y'
-      puts "Exiting..."
-    elsif exit_choice == 'n'
-      puts "Going back to the main menu."
-    else
-      puts "Invalid choice. Please enter 'y' or 'n'."
-    end
-
   else
     puts "Invalid choice. Please enter 'a', 'd', 's', 'w', or 'e'."
   end
 end
-
 
 
 
