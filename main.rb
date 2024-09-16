@@ -42,6 +42,7 @@ while choice != 'e'
   puts "Add a new person in the database = 'a'"
   puts "Delete a person in the database = 'd'"
   puts "Search a person in the database = 's'"
+  puts "Edit a person in the database = 'w'"
   puts "To exit = 'e'"
   print "Enter a choice: "
   choice = gets.chomp.downcase
@@ -88,12 +89,39 @@ while choice != 'e'
       puts "User not found."
     end
 
+  when 'w'
+    puts "Enter the National ID to edit the user:"
+    edit_user_id = gets.chomp
+    user = citizen_data.detect { |person| person[:national_id] == edit_user_id }
+
+    if user
+      puts "Enter 'age' to edit the age"
+      puts "Enter 'name' to edit the name"
+      edit_choice = gets.chomp.downcase
+
+      case edit_choice
+      when 'age'
+        puts "Edit new age:"
+        new_age = gets.chomp.to_i
+        user[:age] = new_age
+        puts "Updated | National ID: #{user[:national_id]} Name: #{user[:name]} Age: #{user[:age]}"
+      when 'name'
+        puts "Edit new name:"
+        new_name = gets.chomp
+        user[:name] = new_name
+        puts "Updated | National ID: #{user[:national_id]} Name: #{user[:name]} Age: #{user[:age]}"
+      else
+        puts "Invalid choice. Please enter 'age' or 'name'."
+      end
+    else
+      puts "User not found."
+    end
+
   when 'e'
     print "Are you sure you want to exit (y/n)? "
     exit_choice = gets.chomp.downcase
     if exit_choice == 'y'
       puts "Exiting..."
-      break
     elsif exit_choice == 'n'
       puts "Going back to the main menu."
     else
@@ -101,10 +129,9 @@ while choice != 'e'
     end
 
   else
-    puts "Invalid choice. Please enter 'a', 'd', or 'e'."
+    puts "Invalid choice. Please enter 'a', 'd', 's', 'w', or 'e'."
   end
 end
-
 
 
 
