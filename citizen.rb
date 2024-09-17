@@ -1,11 +1,12 @@
 class Citizen
-  attr_accessor :national_id, :name, :age
+  attr_accessor :national_id, :name, :age, :created_at
   @@records = []
 
-  def initialize(national_id, name, age)
+  def initialize(national_id, name, age, created_at = Time.now)
     @national_id = national_id
     @name = name
     @age = age
+    @created_at = created_at
   end
     
   def save
@@ -14,7 +15,11 @@ class Citizen
 
   def self.all_records
     @@records
-  end 
+  end
+  
+  def self.first_record
+    @@records.first
+  end
 end
 
 citizen_data = [
@@ -46,3 +51,4 @@ citizen_data.each do |person|
 end
 
 puts Citizen.all_records.inspect
+puts "\nFirst record: #{Citizen.first_record.inspect}\n"
