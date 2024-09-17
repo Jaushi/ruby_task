@@ -20,6 +20,10 @@ class Citizen
   def self.first_record
     @@records.first
   end
+
+  def self.last_record
+    @@records.last
+  end
 end
 
 citizen_data = [
@@ -52,3 +56,4 @@ end
 
 puts Citizen.all_records.inspect
 puts "\nFirst record: #{Citizen.first_record.inspect}\n"
+puts "\nLast record: #{Citizen.last_record.inspect}\n"
