@@ -24,6 +24,11 @@ class Citizen
   def self.last_record
     @@records.last
   end
+
+  def display_record
+    puts "National ID: #{@national_id}, Name: #{@name}, Age: #{@age}, "
+  end
+
 end
 
 citizen_data = [
@@ -55,5 +60,7 @@ citizen_data.each do |person|
 end
 
 puts Citizen.all_records.inspect
-puts "\nFirst record: #{Citizen.first_record.inspect}\n"
-puts "\nLast record: #{Citizen.last_record.inspect}\n"
+puts "First person in the Record:"
+Citizen.first_record.display_record
+puts "Last person in the Record:"
+puts Citizen.last_record.display_record
