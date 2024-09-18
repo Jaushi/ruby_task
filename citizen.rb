@@ -8,7 +8,7 @@ class Citizen
     @age = age
     @created_at = created_at
   end
-    
+
   def save
     @@records << self
   end
@@ -16,7 +16,7 @@ class Citizen
   def self.all_records
     @@records
   end
-  
+
   def self.first_record
     @@records.first
   end
@@ -32,7 +32,7 @@ class Citizen
   def self.find_by_national_id(national_id)
     @@records.detect { |person| person.national_id == national_id }
   end
-  
+
   def update_record(name: nil, age: nil)
     @name = name if name
     @age = age if age
@@ -45,7 +45,11 @@ class Citizen
       puts "Record updated successfully!"
     else
       puts "Citizen with National ID #{national_id} not found."
-    end 
+    end
+  end
+
+  def destroy
+    @@records.delete(self)
   end
 end
 
