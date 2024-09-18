@@ -51,6 +51,10 @@ class Citizen
   def destroy
     @@records.delete(self)
   end
+
+  def self.destroy_all
+    @@records.clear
+  end
 end
 
 citizen_data = [
@@ -128,3 +132,6 @@ end
 
 puts "\nUpdated Record:"
 Citizen.all_records.each { |record| record.display_record }
+
+Citizen.destroy_all
+puts "Destroy all: #{Citizen.all_records}"
