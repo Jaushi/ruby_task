@@ -32,6 +32,21 @@ class Citizen
   def self.find_by_national_id(national_id)
     @@records.detect { |person| person.national_id == national_id }
   end
+  
+  def update_record(name: nil, age: nil)
+    @name = name if name
+    @age = age if age
+  end
+
+  def self.update_record(national_id, name: nil, age: nil)
+    citizen = find_by_national_id(national_id)
+    if citizen
+      citizen.update_record(name: name, age: age)
+      puts "Record updated successfully!"
+    else
+      puts "Citizen with National ID #{national_id} not found."
+    end 
+  end
 end
 
 citizen_data = [
@@ -79,3 +94,33 @@ if user
 else
   puts "User not found."
 end
+
+puts "Enter the National ID to update the user record:"
+update_user_id = gets.chomp
+user = Citizen.find_by_national_id(update_user_id)
+
+if user
+  puts "Enter 'age' to edit the age"
+  puts "Enter 'name' to edit the name"
+  edit_choice = gets.chomp.downcase
+
+  case edit_choice
+  when 'age'
+    puts "Update age:"
+    new_age = gets.chomp.to_i
+    user.age = new_age
+    puts "Updated | National ID: #{user.national_id} Name: #{user.name} Age: #{user.age}"
+  when 'name'
+    puts "Update name:"
+    new_name = gets.chomp
+    user.name = new_name
+    puts "Updated | National ID: #{user.national_id} Name: #{user.name} Age: #{user.age}"
+  else
+    puts "Invalid choice. Please enter 'age' or 'name'."
+  end
+else
+  puts "User not found."
+end
+
+puts "\nUpdated Record:"
+Citizen.all_records.each { |record| record.display_record }
