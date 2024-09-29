@@ -1,3 +1,5 @@
+require 'time'
+
 class Citizen
   attr_accessor :national_id, :name, :age, :created_at
   @@records = []
@@ -26,7 +28,7 @@ class Citizen
   end
 
   def display_record
-    puts "National ID: #{@national_id}, Name: #{@name}, Age: #{@age}"
+    puts "National ID: #{@national_id}, Name: #{@name}, Age: #{@age}, Created At: #{@created_at}"
   end
 
   def self.find_by_national_id(national_id)
@@ -122,6 +124,9 @@ if user
     new_age = gets.chomp.to_i
     user.age = new_age
     puts "Updated | National ID: #{user.national_id} Name: #{user.name} Age: #{user.age}"
+  when 'display'
+    puts "Displaying all records:"
+    Citizen.all_records.each { |record| record.display_record }
   when 'name'
     puts "Update name:"
     new_name = gets.chomp
@@ -137,11 +142,9 @@ end
 puts "\nUpdated Record:"
 Citizen.all_records.each { |record| record.display_record }
 
-Citizen.count
 puts "Total Citizen Record: #{Citizen.count}"
 
 Citizen.destroy_all
 puts "Destroy all: #{Citizen.all_records}"
 
-Citizen.count
 puts "Total Citizen Record after Destroy: #{Citizen.count}"
